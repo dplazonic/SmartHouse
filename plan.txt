@@ -1,11 +1,46 @@
+Opis projekta.
+Polaznici već jesu radili neke aplikacije, ali ovaj projekt bi trebao biti malo zahtjevniji zato što sada treba proći kroz sve faze projekta na način da se polaznici 
+stave u ulogu da rade za neku firmu (ako im je lakše mogu imati i svoju firmu) te su dobili slijedeći upit od potencijalnog korisnika:
+	„Želim uvesti automatizaciju u svoju kuću. Hoću imati Pametnu kuću. Čuo sam da se može automatizirati rasvjeta, temperatura, kamere … je li to sve ili može još nešto?”
+
+Bez obzira što polaznici predložili, uvijek u svaku aplikaciju treba uključiti dio u kojem
+ - se postavljaju postavke aplikacije
+ - se upravljanja rasvjetom i roletama (ovisno o dobu dana upaliti ili ugasiti rasvjetu u dvorištu, ako vani pada kiša onda treba spustiti rolete, ali tada treba uključiti unutarnje svjetlo … i drugi slični primjeri)
+ - se integrira raspored aktivnosti stanara. Namijenjeno je za upravljanje evidencijom obveza ukućana pa se tako kroz tu aplikaciju za današnji datum i slijedeća dva ili tri dana prikažu sve aktivnosti koje neki stanar ima.
+ 	 Primjer:
+      Ana – ponedjeljak, 05.06.2021. – 18:00 do 18:45 – Tečaj engleskog jezika u „Neko super ime” školi stranih jezika.
+      Petar – ponedjeljak, 05.06.2021 – 18:30 do 19:30 – Tečaj sviranja bubnjeva, Rock akademija
 
 
+# Main screen:
+    - gumb postavke kuče
+    - gumb To do
+    - prikaz:
+        - vremenska prognoza - desni ugao (API: https://open-meteo.com/)
+        - Google calendars - lijevi ugao (API: https://developers.google.com/calendar/api/quickstart/python)
 
-
-
-
-
-
-
-
-teest 100
+    # postavke kuče
+    tkinter gumbovi
+        rolete:
+            - spuštanje roleta
+            - dizanje roleta
+            - otvaranje roleta
+            - zatvaranje roleta
+            - avtomatsko podešavanje - prati prognoznu (uslovi sa obzirom na status prognoze (weather API: https://open-meteo.com/))
+        svjetla:
+            - vanjska (povezi sa API (https://open-meteo.com/) za sunrise (ugasi) i sunset (upali) uz mogucnost manual):
+                - terasa
+                - ulazna vrata
+                - prilaz za garazu 
+            - unutrašnja:
+                - dnevni boravak
+                - kuhinja
+                - hodnik
+                - spavaca soba
+        hvac sistem:
+            - grijanje
+            - klima
+            - ventilacija
+        postavke:
+            - automatska kontrola
+            - manualna kontrola
