@@ -1,10 +1,16 @@
 import tkinter as tk
+from tkinter import *
 from db_comm import save_data, get_data
 from web_api import *
 from Klase import *
 from time import strftime
+from todo_db_manager.todo_db_manager import *
+from todo import *
 
-weather_data = retrieve_data_weather(get_location_by_IP_adress())
+db = TasksDatabase('tasks.db')
+
+
+#weather_data = retrieve_data_weather()
 
 def stanje_hvac():
     stanje_hvac_data = get_data("hvac")[0]
@@ -43,11 +49,11 @@ def clock():
     l1_clock.config(text=time_string)
     l1_clock.after(1000,clock) 
 
-def weather():
-    weather_data = retrieve_data_weather(get_location_by_IP_adress())
-    main_label_centar.config(text=weather_data)
-    main_label_centar.after(20000, weather)
-    print(weather_data)
+# def weather():
+#     weather_data = retrieve_data_weather()
+#     main_label_centar.config(text=weather_data)
+#     main_label_centar.after(600000, weather)
+#     print(weather_data)
     
 def otvori(name):
     save_data(name, 30)
@@ -62,12 +68,12 @@ def automatic():
         svijetla.config(state="disabled")
         hvac.config(state="disabled")
 
-        if int(weather_data.temperature[:2]) < 16:
-            save_data("hvac", 20)
+        # if int(weather_data.temperature[:2]) < 16:
+        #     save_data("hvac", 20)
 
-        if weather_data.is_day == 0:
-            save_data("roleta", 0)
-            save_data("svijetla", 100)
+        # if weather_data.is_day == 0:
+        #     save_data("roleta", 0)
+        #     save_data("svijetla", 100)
 
 
 
@@ -144,25 +150,60 @@ hvac = tk.Button(main_label_frame_lijevi, text="HVAC", width=10, command= lambda
 hvac.grid(row=3, column=1, pady=5)
 
 l1_clock = tk.Label(root)
-l1_clock.place(relx=0.5, rely=0, anchor="n")
+l1_clock.place(relx=0.2, rely=0, anchor="n")
 
 
 
 
 main_label_centar = tk.Label(root, text = "")
-main_label_centar.place(relx=0.5, rely=0.5, anchor="n")
+main_label_centar.place(relx=0.5, rely=0.0, anchor="ne")
 
+
+
+# # -------TODO-------
 
 main_label_frame_desni = tk.LabelFrame(root, text="TO-DO", labelanchor="n")
-main_label_frame_desni.place(relx=0.05, rely=0, anchor="nw")
+main_label_frame_desni.place(relx=0.05, rely=0.2, anchor="nw", width=320)
 
-to_do_lable = tk.Label(main_label_frame_desni, text="Povlači tekst iz baze podataka")
-to_do_lable.grid(row=0, column=0)
+# to_do_lable = tk.Label(main_label_frame_desni, text="")
+# to_do_lable.grid(row=0, column=0)
 
+lista_zadataka = Listbox(main_label_frame_desni, height=10, width=49, border=1)
+lista_zadataka.grid (row=1, column=0)
+
+scrollbar = Scrollbar(main_label_frame_desni)
+scrollbar.grid(row=1, column=3, sticky='ns')
+lista_zadataka.configure(yscrollcommand=scrollbar.set)
+scrollbar.configure(command=lista_zadataka.yview)
+
+
+
+
+
+
+def populate_list():
+    lista_zadataka.delete(0, END)
+    for row in db.fetch():
+        lista_zadataka.insert(END, row)
+    lista_zadataka.after(2000, populate_list)
+
+
+
+
+    
+
+todo_button = tk.Button(main_label_frame_desni, text="Postavke zadataka", width=15, command=todomain)
+todo_button.grid(row=5, column=0, pady=5)
+ 
+
+
+ 
 automatic()
 stanje_hvac()
 stanje_rolete()
 stanje_svijetla()
-weather()
+#weather()
 clock()
+populate_list()
+
 root.mainloop()
